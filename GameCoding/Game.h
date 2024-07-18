@@ -15,5 +15,6 @@ private:
 	HDC _hdc = {};
 
 
+
 };
 

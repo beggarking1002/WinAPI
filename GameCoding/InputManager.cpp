@@ -22,7 +22,7 @@ void InputManager::Update()
 
 			// 이전 프레임에 키를 누른 상태라면 PRESS
 			if (state == KeyState::Press || state == KeyState::Down)
-				state == KeyState::Press;
+				state = KeyState::Press;
 			else
 				state = KeyState::Down;
 		}
