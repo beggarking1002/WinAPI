@@ -80,6 +80,21 @@
     <ClInclude Include="DevScene.h">
       <Filter>소스 파일\02. Scene\Game</Filter>
     </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>소스 파일\03. Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>소스 파일\03. Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>소스 파일\03. Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Missile.h">
+      <Filter>소스 파일\03. Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectManager.h">
+      <Filter>소스 파일\01. Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameCoding.rc">
@@ -124,6 +139,21 @@
     </ClCompile>
     <ClCompile Include="DevScene.cpp">
       <Filter>소스 파일\02. Scene\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>소스 파일\03. Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>소스 파일\03. Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>소스 파일\03. Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Missile.cpp">
+      <Filter>소스 파일\03. Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectManager.cpp">
+      <Filter>소스 파일\01. Manager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

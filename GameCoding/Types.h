@@ -10,6 +10,14 @@ using uint32	 = unsigned __int32;
 using uint64	 = unsigned __int64;
 
 
+struct Stat
+{
+	int32 hp = 0;
+	int32 maxHp = 0;
+	float speed = 0;
+};
+
+
 struct Pos
 {
 	float x = 0;

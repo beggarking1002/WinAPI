@@ -1,18 +1,15 @@
 #pragma once
-#include "Scene.h"
-
-class GameScene : public Scene
+#include "Object.h"
+class Monster : public Object
 {
 public:
-	GameScene();
-	virtual ~GameScene() override;
+	Monster();
+	virtual ~Monster() override;
 
 	virtual void Init() override;
 	virtual void Update() override;
 	virtual void Render(HDC hdc) override;
 
-
 public:
-	//class Player* _player = nullptr;
 };
 
