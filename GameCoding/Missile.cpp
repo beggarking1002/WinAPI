@@ -24,9 +24,37 @@ void Missile::Update()
 {
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
 
+	//
+	if (_target == nullptr)
+	{
+		_pos.x += _stat.speed * deltaTime * ::cos(_angle);
+		_pos.y -= _stat.speed * deltaTime * ::sin(_angle);
 
-	_pos.x += _stat.speed * deltaTime * ::cos(_angle);
-	_pos.y -= _stat.speed * deltaTime * ::sin(_angle);
+		_sumTime += deltaTime;
+		if (_sumTime >= 0.2f)
+		{
+			const vector<Object*>& objects = GET_SINGLE(ObjectManager)->GetObjects();
+			for (Object* object : objects)
+			{
+				if (object->GetObjectType() == ObjectType::Monster)
+				{
+					_target = object;
+					break;
+				}
+			}
+		}
+	}
+	else
+	{
+		Vector dir = _target->GetPos() - GetPos();
+		dir.Normalize();
+
+		Vector moveDir = dir * _stat.speed * deltaTime;
+		_pos += moveDir;
+	}
+
+
+
 
 	// Ãæµ¹
 	const vector<Object*> objects = GET_SINGLE(ObjectManager)->GetObjects();
