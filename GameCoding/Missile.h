@@ -10,6 +10,8 @@ public:
 	virtual void Update() override;
 	virtual void Render(HDC hdc) override;
 
-public:
+	void SetAngle(float angle) { _angle = angle; }
+protected:
+	float _angle = 0.f;
 };
 

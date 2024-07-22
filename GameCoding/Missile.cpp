@@ -24,7 +24,9 @@ void Missile::Update()
 {
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
 
-	_pos.y -= deltaTime * _stat.speed;
+
+	_pos.x += _stat.speed * deltaTime * ::cos(_angle);
+	_pos.y -= _stat.speed * deltaTime * ::sin(_angle);
 
 	// Ãæµ¹
 	const vector<Object*> objects = GET_SINGLE(ObjectManager)->GetObjects();
