@@ -1,5 +1,6 @@
 #pragma once
 #include <cmath>
+#include <windows.h>
 
 using int8		 = __int8;
 using int16		 = __int16;
@@ -22,6 +23,7 @@ struct Vector
 {
 	Vector() {}
 	Vector(float x, float y) : x(x), y(y) {}
+	Vector(POINT pt) : x((float)pt.x), y((float)pt.y) {}
 
 	Vector operator+(const Vector& other)
 	{
@@ -84,6 +86,11 @@ struct Vector
 
 		x /= length;
 		y /= length;
+	}
+
+	float Dot(Vector other)
+	{
+		return x * other.x + y * other.y;
 	}
 
 	float x = 0;
