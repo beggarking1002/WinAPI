@@ -36,6 +36,9 @@
     <Filter Include="소스 파일\04. Resources\Game">
       <UniqueIdentifier>{1141ae4a-b3e8-47d4-b676-e83c6ecb4b75}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\01. Manager\Game">
+      <UniqueIdentifier>{96078f78-53ba-4a88-9066-2f54fdbf7967}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCoding.h">
@@ -113,6 +116,9 @@
     <ClInclude Include="ResourceManager.h">
       <Filter>소스 파일\01. Manager</Filter>
     </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>소스 파일\01. Manager\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameCoding.rc">
@@ -184,6 +190,9 @@
     </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
       <Filter>소스 파일\01. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>소스 파일\01. Manager\Game</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
