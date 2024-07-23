@@ -2,7 +2,7 @@
 #include "Player.h"
 #include "InputManager.h"
 #include "TimeManager.h"
-#include "Missile.h"
+
 #include "ObjectManager.h"
 #include "ResourceManager.h"
 #include "LineMesh.h"
@@ -30,9 +30,14 @@ void Player::Update()
 {
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
 
+	if (_playerTurn == false)
+		return;
+
 	if (GET_SINGLE(InputManager)->GetButton(KeyType::A))
 	{
 		_pos.x -= _stat.speed * deltaTime;
+
+		_dir = Dir::Left;
 		//_pos.x -= 500 * deltaTime;
 
 	}
@@ -40,6 +45,9 @@ void Player::Update()
 	if (GET_SINGLE(InputManager)->GetButton(KeyType::D))
 	{
 		_pos.x += _stat.speed * deltaTime;
+
+		_dir = Dir::Right;
+
 	}
 
 	if (GET_SINGLE(InputManager)->GetButton(KeyType::W))
@@ -55,50 +63,53 @@ void Player::Update()
 
 	if (GET_SINGLE(InputManager)->GetButton(KeyType::Q))
 	{
-		_barrelAngle += 10 * deltaTime;
+
 	}
 
 	if (GET_SINGLE(InputManager)->GetButton(KeyType::E))
 	{
-		_barrelAngle -= 10 * deltaTime;
+
 	}
 
 
 
 	if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::SpaceBar))
 	{
-		// TODO : 미사일 발사
-		Missile* missile = GET_SINGLE(ObjectManager)->CreateObject<Missile>();
-		missile->SetPos(GetFirePos());
-		missile->SetAngle(_barrelAngle);
-		GET_SINGLE(ObjectManager)->Add(missile);
+
 	}
 }
 
 void Player::Render(HDC hdc)
 {
-	//Utils::DrawCircle(hdc, _pos, 50);
-	const LineMesh* mesh = GET_SINGLE(ResourceManager)->GetLineMesh(L"Player");
-	if (mesh)
-		mesh->Render(hdc, _pos);
-
+	if (_dir == Dir::Left)
+	{
+		const LineMesh* mesh = GET_SINGLE(ResourceManager)->GetLineMesh(GetMeshKey());
+		if (mesh)
+			mesh->Render(hdc, _pos, 0.5f, 0.5f);
+	}
+	else
+	{
+		const LineMesh* mesh = GET_SINGLE(ResourceManager)->GetLineMesh(GetMeshKey());
+		if (mesh)
+			mesh->Render(hdc, _pos, -0.5f, 0.5f);
+	}
 	
+	
+	//Utils::DrawCircle(hdc, _pos, 50);
 
 	HPEN pen = ::CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
 	HPEN oldPen = (HPEN)::SelectObject(hdc, pen);
 
-	Utils::DrawLine(hdc, _pos, GetFirePos());
+	//Utils::DrawLine(hdc, _pos, GetFirePos());
 
 	::SelectObject(hdc, oldPen);
 	::DeleteObject(pen);
 }
 
-Pos Player::GetFirePos()
+wstring Player::GetMeshKey()
 {
-	Pos firePos = _pos;
+	if (_playerType == PlayerType::MissileTank)
+		return L"MissileTank";
 
-	firePos.x += _barrelLength * ::cos(_barrelAngle);
-	firePos.y -= _barrelLength * ::sin(_barrelAngle);
-	
-	return firePos;
+	return L"CanonTank";
 }

@@ -59,8 +59,6 @@ void LineMesh::Load(wstring path)
 
 	_lines.clear();
 
-
-
 	for (int32 i = 0; i < count; i++)
 	{
 		POINT pt1;
@@ -73,9 +71,30 @@ void LineMesh::Load(wstring path)
 		_lines.push_back(make_pair(pt1, pt2));
 	}
 	file.close();
+
+	// width, height
+	int32 minX = INT32_MAX;
+	int32 maxX = INT32_MIN;
+	int32 minY = INT32_MAX;
+	int32 maxY = INT32_MIN;
+
+	for (auto& line : _lines)
+	{
+		POINT from = line.first;
+		POINT to = line.second;
+
+		minX = min(min(minX, from.x), to.x);
+		maxX = max(max(maxX, from.x), to.x);
+		minY = min(min(minY, from.y), to.y);
+		maxY = max(max(maxY, from.y), to.y);
+	}
+
+	_width = maxX - minX;
+	_height = maxY - minY;
+
 }
 
-void LineMesh::Render(HDC hdc, Pos pos) const
+void LineMesh::Render(HDC hdc, Pos pos, float ratioX, float ratioY) const
 {
 	for (auto& line : _lines)
 	{
@@ -83,12 +102,12 @@ void LineMesh::Render(HDC hdc, Pos pos) const
 		POINT pt2 = line.second;
 
 		Pos pos1;
-		pos1.x = pos.x + (float)pt1.x;
-		pos1.y = pos.y + (float)pt1.y;
+		pos1.x = pos.x + (float)pt1.x * ratioX;
+		pos1.y = pos.y + (float)pt1.y * ratioY;
 
 		Pos pos2;
-		pos2.x = pos.x + (float)pt2.x;
-		pos2.y = pos.y + (float)pt2.y;
+		pos2.x = pos.x + (float)pt2.x * ratioX;
+		pos2.y = pos.y + (float)pt2.y * ratioY;
 
 		Utils::DrawLine(hdc, pos1, pos2);
 	}
