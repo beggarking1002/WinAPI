@@ -4,6 +4,7 @@
 #include "ObjectManager.h"
 #include "SceneManager.h"
 #include "FortressScene.h"
+#include "UIManager.h"
 
 Bullet::Bullet() : Object(ObjectType::Projectile)
 {
@@ -23,11 +24,41 @@ void Bullet::Update()
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
 
 	// Wind
+	float windPercent = GET_SINGLE(UIManager)->GetWindPercent();
+	_speed.x += 20 * deltaTime * windPercent;
+
 
 	//Gravity
+	_speed.y += 1000 * deltaTime;
 
+
+	// 이동
 	_pos += _speed * deltaTime;
 
+	// 충돌
+	const vector<Object*>& objects = GET_SINGLE(ObjectManager)->GetObjects();
+	for (Object* object : objects)
+	{
+		if (object->GetObjectType() != ObjectType::Player)
+			continue;
+		if (object == _owner)
+			continue;
+
+		Vector dir = _pos - object->GetPos();
+		if (dir.Length() < _radius + object->GetRadius())
+		{
+			FortressScene* scene = dynamic_cast<FortressScene*>(GET_SINGLE(SceneManager)->GetCurrentScene());
+			if (scene)
+				scene->ChangePlayerTurn();
+
+			GET_SINGLE(ObjectManager)->Remove(this);
+			return;
+		}
+
+	}
+
+
+	//소멸
 	if (_pos.y > GWinSizeY * 1.5 || _pos.y < -GWinSizeY * 1.5)
 	{
 		FortressScene* scene = dynamic_cast<FortressScene*>(GET_SINGLE(SceneManager)->GetCurrentScene());
