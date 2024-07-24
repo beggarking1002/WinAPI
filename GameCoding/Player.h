@@ -23,6 +23,8 @@ public:
 	PlayerType GetPlayerType() { return _playerType; }
 	bool GetPlayerTurn() { return _playerTurn; }
 
+	void UpdateFireAngle();
+
 public:
 	int32	   _playerId = 0;
 	PlayerType _playerType = PlayerType::CanonTank;
