@@ -15,7 +15,10 @@
 #include <algorithm>
 using namespace std;
 
+// C++20
 #include <format>
+#include <filesystem>
+namespace fs = std::filesystem;
 
 #define _CRTDEBG_MAP_ALLOC
 #include <cstdlib>

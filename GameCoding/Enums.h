@@ -5,9 +5,7 @@ enum class SceneType
 	None,
 	DevScene,
 	EditScene,
-	//
-	MenuScene,
-	FortressScene
+
 };
 
 enum class PlayerType

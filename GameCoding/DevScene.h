@@ -13,8 +13,6 @@ public:
 
 
 public:
-	// TEST
-	Pos _playerPos = { 300, 300 };
-	float _speed = 1000;
+
 };
 

@@ -32,9 +32,9 @@ void Game::Init(HWND hwnd)
 	GET_SINGLE(TimeManager)->Init();
 	GET_SINGLE(InputManager)->Init(hwnd);
 	GET_SINGLE(SceneManager)->Init();
-	GET_SINGLE(ResourceManager)->Init();
+	GET_SINGLE(ResourceManager)->Init(hwnd, fs::path(L"E:\\Win\\GameCoding\\Resources"));
 
-	GET_SINGLE(SceneManager)->ChangeScene(SceneType::MenuScene);
+	GET_SINGLE(SceneManager)->ChangeScene(SceneType::DevScene);
 }
 
 void Game::Update()
