@@ -1,6 +1,9 @@
 #pragma once
 #include "Scene.h"
 
+class Actor;
+class GameObject;
+
 class DevScene : public Scene
 {
 public:
@@ -13,6 +16,9 @@ public:
 
 
 public:
+	Actor* _background;
+	Actor* _player;
 
+	vector<Actor*> _actors;
 };
 
