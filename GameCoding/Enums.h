@@ -8,14 +8,19 @@ enum class SceneType
 
 };
 
-enum class PlayerType
+enum LAYER_TYPE
 {
-	CanonTank,
-	MissileTank
+	LAYER_BACKGROUND,
+	LAYER_OBJECT,
+	// ...
+	LAYER_UI,
+
+	LAYER_MAXCOUNT
 };
 
-enum class Dir
+enum class ColliderType
 {
-	Left,
-	Right
+	Box,
+	Sphere,
+
 };

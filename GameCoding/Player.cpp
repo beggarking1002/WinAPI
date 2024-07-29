@@ -1,9 +1,10 @@
 #include "pch.h"
 #include "Player.h"
 #include "InputManager.h"
+#include "TimeManager.h"
 #include "ResourceManager.h"
 #include "Flipbook.h"
-#include "TimeManager.h"
+#include "CameraComponent.h"
 
 
 Player::Player()
@@ -12,6 +13,9 @@ Player::Player()
 	_flipbookDown = GET_SINGLE(ResourceManager)->GetFlipbook(L"FB_MoveDown");
 	_flipbookLeft = GET_SINGLE(ResourceManager)->GetFlipbook(L"FB_MoveLeft");
 	_flipbookRight = GET_SINGLE(ResourceManager)->GetFlipbook(L"FB_MoveRight");
+
+	CameraComponent* camera = new CameraComponent();
+	AddComponent(camera);
 }
 
 Player::~Player()
@@ -23,6 +27,9 @@ void Player::BeginPlay()
 	Super::BeginPlay();
 
 	SetFlipbook(_flipbookRight);
+
+
+
 }
 
 void Player::Tick()

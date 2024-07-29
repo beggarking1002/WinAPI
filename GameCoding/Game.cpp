@@ -47,6 +47,8 @@ void Game::Update()
 
 void Game::Render()
 {
+	GET_SINGLE(SceneManager)->Render(_hdcBack);
+	
 	uint32 fps = GET_SINGLE(TimeManager)->GetFps();
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
 
@@ -57,11 +59,11 @@ void Game::Render()
 	}
 	
 	{
-		wstring str = std::format(L"FPS({0}), DT({1} ms)", fps, static_cast<int32>(deltaTime * 1000));
-		::TextOut(_hdcBack, 650, 10, str.c_str(), static_cast<int32>(str.size()));
+		wstring str = std::format(L"FPS({0}), DT({1})", fps, deltaTime);
+		::TextOut(_hdcBack, 550, 10, str.c_str(), static_cast<int32>(str.size()));
 	}
 
-	GET_SINGLE(SceneManager)->Render(_hdcBack);
+	
 
 	// Double Buffering
 	::BitBlt(_hdc, 0, 0, _rect.right, _rect.bottom, _hdcBack, 0, 0, SRCCOPY); // 비트 블릿 : 고속 복사
