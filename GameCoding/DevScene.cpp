@@ -10,6 +10,9 @@
 #include "SpriteActor.h"
 #include "Player.h"
 #include "Flipbook.h"
+#include "BoxCollider.h"
+#include "SphereCollider.h"
+#include "CollisionManager.h"
 
 
 DevScene::DevScene()
@@ -63,10 +66,7 @@ void DevScene::Init()
 		Flipbook* fb = GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_MoveRight");
 		fb->SetInfo({ texture, L"FB_MoveRight", {200, 200}, 0, 9, 1, 0.5f });
 	}
-	{
-		Player* player = new Player();
-		AddActor(player);
-	}
+
 
 
 	{
@@ -81,6 +81,28 @@ void DevScene::Init()
 		AddActor(background);
 	}
 
+	{
+		Player* player = new Player();
+		{
+			SphereCollider* collider = new SphereCollider();
+			collider->SetRadius(100);
+			player->AddComponent(collider);
+			GET_SINGLE(CollisionManager)->AddCollider(collider);
+		}
+		AddActor(player);
+	}
+
+	{
+		Actor* player = new Actor();
+		{
+			SphereCollider* collider = new SphereCollider();
+			collider->SetRadius(50);
+			player->AddComponent(collider);
+			GET_SINGLE(CollisionManager)->AddCollider(collider);
+			player->SetPos({ 400, 200 });
+		}
+		AddActor(player);
+	}
 
 
 	for (const vector<Actor*>& actors : _actors)
@@ -92,6 +114,9 @@ void DevScene::Init()
 void DevScene::Update()
 {
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
+
+	GET_SINGLE(CollisionManager)->Update();
+
 
 	for (const vector<Actor*>& actors : _actors)
 		for (Actor* actor : actors)
