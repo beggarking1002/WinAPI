@@ -7,20 +7,18 @@ class UI;
 
 class DevScene : public Scene
 {
+	using Super = Scene;
 public:
 	DevScene();
-	virtual ~DevScene();
+	virtual ~DevScene() override;
 
 	virtual void Init() override;
 	virtual void Update() override;
 	virtual void Render(HDC hdc) override;
 
-	void AddActor(Actor* actor);
-	void RemoveActor(Actor* actor);
+	void Clear();
 
+	class TilemapActor* _tilemapActor = nullptr;
 
-public:
-	vector<Actor*> _actors[LAYER_MAXCOUNT];
-	vector<UI*> _uis;
 };
 

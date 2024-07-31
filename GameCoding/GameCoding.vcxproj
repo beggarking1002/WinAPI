@@ -165,6 +165,8 @@
     <ClInclude Include="SpriteActor.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="Tilemap.h" />
+    <ClInclude Include="TilemapActor.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="UI.h" />
@@ -200,6 +202,8 @@
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteActor.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Tilemap.cpp" />
+    <ClCompile Include="TilemapActor.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="Utils.cpp" />

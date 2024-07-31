@@ -14,7 +14,11 @@
 #include "SphereCollider.h"
 #include "CollisionManager.h"
 #include "UI.h"
-#include "Button.h"
+#include "TilemapActor.h"
+#include "Tilemap.h"
+
+
+
 
 
 DevScene::DevScene()
@@ -27,7 +31,11 @@ DevScene::~DevScene()
 
 void DevScene::Init()
 {
+	
+	
 	GET_SINGLE(ResourceManager)->LoadTexture(L"Stage01", L"Sprite\\Map\\Stage01.bmp");
+	GET_SINGLE(ResourceManager)->LoadTexture(L"Tile", L"Sprite\\Map\\tile.bmp", RGB(128, 128, 128));
+
 	GET_SINGLE(ResourceManager)->LoadTexture(L"Sword", L"Sprite\\Item\\Sword.bmp");
 	GET_SINGLE(ResourceManager)->LoadTexture(L"Potion", L"Sprite\\UI\\Mp.bmp");
 	GET_SINGLE(ResourceManager)->LoadTexture(L"PlayerDown", L"Sprite\\Player\\PlayerDown.bmp", RGB(128, 128, 128));
@@ -76,13 +84,26 @@ void DevScene::Init()
 
 		SpriteActor* background = new SpriteActor();	
 		background->SetSprite(sprite);
-		background->SetLayer(LAYER_BACKGROUND);
+		//background->SetLayer(LAYER_BACKGROUND);
 		const Vec2Int size = sprite->GetSize();
 		background->SetPos(Vec2(size.x / 2, size.y / 2));
 		
 		AddActor(background);
 	}
 
+	{
+		Player* player = new Player();
+		player->SetPos({ 100, 100 });
+
+		//BoxCollider* collider = new BoxCollider();
+		//collider->SetSize({ 100, 100 });
+		//GET_SINGLE(CollisionManager)->AddCollider(collider);
+		//player->AddComponent(collider);
+
+		AddActor(player);
+	}
+
+	/*
 	{
 		Player* player = new Player();
 		{
@@ -93,7 +114,7 @@ void DevScene::Init()
 		}
 		AddActor(player);
 	}
-
+	
 	{
 		Actor* player = new Actor();
 		{
@@ -105,65 +126,49 @@ void DevScene::Init()
 		}
 		AddActor(player);
 	}
+	*/
 
 	{
-		Button* ui = new Button();
-		ui->SetSprite(GET_SINGLE(ResourceManager)->GetSprite(L"Start_Off"), BS_Default);
-		ui->SetSprite(GET_SINGLE(ResourceManager)->GetSprite(L"Start_On"), BS_Clicked);
-		ui->SetPos({ 200, 200 });
+		TilemapActor* actor = new TilemapActor();
+		AddActor(actor);
+		_tilemapActor = actor;
 
-		_uis.push_back(ui);
+		{
+			auto* tm = GET_SINGLE(ResourceManager)->CreateTilemap(L"Tilemap_01");
+			tm->SetMapSize({ 63, 43 });
+			tm->SetTileSize(48);
+
+			_tilemapActor->SetTilemap(tm);
+			_tilemapActor->SetShowDebug(true);
+		}
+
+
 	}
 
 
-	for (const vector<Actor*>& actors : _actors)
-		for (Actor* actor : actors)
-			actor->BeginPlay();
 
-	for (UI* ui : _uis)
-		ui->BeginPlay();
+
+
+	Super::Init();
+
 
 }
 
 void DevScene::Update()
 {
-	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
+	Super::Update();
+	
 
-	GET_SINGLE(CollisionManager)->Update();
-
-
-	for (const vector<Actor*>& actors : _actors)
-		for (Actor* actor : actors)
-			actor->Tick();
-
-	for (UI* ui : _uis)
-		ui->Tick();
 }
 
 void DevScene::Render(HDC hdc)
 {
-	for(const vector<Actor*>& actors : _actors)
-		for (Actor* actor : actors)
-			actor->Render(hdc);
+	Super::Render(hdc);
+	
 
-	for (UI* ui : _uis)
-		ui->Render(hdc);
 }
 
-void DevScene::AddActor(Actor* actor)
+void DevScene::Clear()
 {
-	if (actor == nullptr)
-		return;
-
-	_actors[actor->GetLayer()].push_back(actor);
 }
 
-void DevScene::RemoveActor(Actor* actor)
-{
-	if (actor == nullptr)
-		return;
-
-	vector<Actor*>& v = _actors[actor->GetLayer()];
-
-	v.erase(std::remove(v.begin(), v.end(), actor), v.end());
-}
