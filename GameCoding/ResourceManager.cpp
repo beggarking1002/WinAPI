@@ -4,6 +4,7 @@
 #include "Sprite.h"
 #include "Flipbook.h"
 #include "Tilemap.h"
+#include "Sound.h"
 
 ResourceManager::~ResourceManager()
 {
@@ -92,11 +93,41 @@ Tilemap* ResourceManager::CreateTilemap(const wstring& key)
 
 void ResourceManager::SaveTilemap(const wstring& key, const wstring& path)
 {
+	Tilemap* tm = GetTilemap(key);
+
+	fs::path fullPath = _resourcePath / path;
+	tm->SaveFile(fullPath);
+
+
 }
 
 Tilemap* ResourceManager::LoadTilemap(const wstring& key, const wstring& path)
 {
-	return nullptr;
+	Tilemap* tm = nullptr;
+
+	if (_tilemaps.find(key) == _tilemaps.end())
+		_tilemaps[key] = new Tilemap();
+
+	tm = _tilemaps[key];
+
+	fs::path fullPath = _resourcePath / path;
+	tm->LoadFile(fullPath);
+
+	return tm;
+}
+
+Sound* ResourceManager::LoadSound(const wstring& key, const wstring& path)
+{
+	if (_sounds.find(key) != _sounds.end())
+		return _sounds[key];
+
+	fs::path fullPath = _resourcePath / path;
+
+	Sound* sound = new Sound();
+	sound->LoadWave(fullPath);
+	_sounds[key] = sound;
+
+	return sound;
 }
 
 

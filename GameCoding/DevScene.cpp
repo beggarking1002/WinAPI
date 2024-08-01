@@ -16,6 +16,8 @@
 #include "UI.h"
 #include "TilemapActor.h"
 #include "Tilemap.h"
+#include "SoundManager.h"
+#include "Sound.h"
 
 
 
@@ -146,8 +148,13 @@ void DevScene::Init()
 	}
 
 
+	GET_SINGLE(ResourceManager)->LoadSound(L"BGM", L"Sound\\BGM.wav");
+	{
+		Sound* sound = GET_SINGLE(ResourceManager)->GetSound(L"BGM");
+		sound->Play(true);
 
 
+	}
 
 	Super::Init();
 
@@ -157,8 +164,17 @@ void DevScene::Init()
 void DevScene::Update()
 {
 	Super::Update();
-	
+	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
+	// 거리 = 시간 * 속도
 
+	if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::Q))
+	{
+		GET_SINGLE(ResourceManager)->SaveTilemap(L"Tilemap_01", L"Tilemap\\Tilemap01.txt");
+	}
+	else if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::E))
+	{
+		GET_SINGLE(ResourceManager)->LoadTilemap(L"Tilemap_01", L"Tilemap\\Tilemap01.txt");
+	}
 }
 
 void DevScene::Render(HDC hdc)

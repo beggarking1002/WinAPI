@@ -5,6 +5,7 @@ class Texture;
 class Sprite;
 class Flipbook;
 class Tilemap;
+class Sound;
 
 class ResourceManager
 {
@@ -29,8 +30,12 @@ public:
 
 	Tilemap* GetTilemap(const wstring& key) { return _tilemaps[key]; }
 	Tilemap* CreateTilemap(const wstring& key);
+
 	void SaveTilemap(const wstring& key, const wstring& path);
 	Tilemap* LoadTilemap(const wstring& key, const wstring& path);
+
+	Sound* GetSound(const wstring& key) { return _sounds[key]; }
+	Sound* LoadSound(const wstring& key, const wstring& path);
 
 
 private:
@@ -41,5 +46,6 @@ private:
 	unordered_map<wstring, Sprite*> _sprites;
 	unordered_map<wstring, Flipbook*> _flipbooks;
 	unordered_map<wstring, Tilemap*> _tilemaps;
+	unordered_map<wstring, Sound*> _sounds;
 };
 
