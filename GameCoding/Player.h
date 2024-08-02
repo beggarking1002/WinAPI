@@ -2,8 +2,8 @@
 
 #include "FlipbookActor.h"
 
-class Flipbook;
-class Collider;
+
+class BoxCollider;
 
 class Player : public FlipbookActor
 {
@@ -18,6 +18,11 @@ public:
 
 	virtual void OnComponentBeginOverlap(Collider* collider, Collider* other) override;
 	virtual void OnComponentEndOverlap(Collider* collider, Collider* other) override;
+
+private:
+	void TickGravity();
+	void AdjustCollisionPos(BoxCollider* b1, BoxCollider* b2);
+
 
 private:
 	Flipbook* _flipbookUp = nullptr;

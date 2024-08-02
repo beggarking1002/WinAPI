@@ -97,13 +97,35 @@ void DevScene::Init()
 		Player* player = new Player();
 		player->SetPos({ 100, 100 });
 
-		//BoxCollider* collider = new BoxCollider();
-		//collider->SetSize({ 100, 100 });
-		//GET_SINGLE(CollisionManager)->AddCollider(collider);
-		//player->AddComponent(collider);
+		BoxCollider* collider = new BoxCollider();
+		collider->SetSize({ 100, 100 });
+		GET_SINGLE(CollisionManager)->AddCollider(collider);
+		player->AddComponent(collider);
 
 		AddActor(player);
 	}
+
+	// UE Style
+	{
+		Actor* test = new Actor();
+		test->SetLayer(LAYER_OBJECT);
+		test->SetPos({ 300, 200 });
+		BoxCollider* collider = new BoxCollider();
+		collider->SetSize({ 100, 100 });
+
+		GET_SINGLE(CollisionManager)->AddCollider(collider);
+		test->AddComponent(collider);
+
+		AddActor(test);
+	}
+
+	
+
+
+
+
+
+
 
 	/*
 	{
@@ -130,6 +152,7 @@ void DevScene::Init()
 	}
 	*/
 
+	/*
 	{
 		TilemapActor* actor = new TilemapActor();
 		AddActor(actor);
@@ -146,13 +169,13 @@ void DevScene::Init()
 
 
 	}
-
+	*/
 
 	GET_SINGLE(ResourceManager)->LoadSound(L"BGM", L"Sound\\BGM.wav");
 	{
-		Sound* sound = GET_SINGLE(ResourceManager)->GetSound(L"BGM");
-		sound->Play(true);
-
+		//Sound* sound = GET_SINGLE(ResourceManager)->GetSound(L"BGM");
+		//sound->Play(true);
+		//GET_SINGLE(SoundManager)->Play(L"BGM");
 
 	}
 

@@ -28,8 +28,6 @@ void CollisionManager::Update()
 					dest->_collisionMap.insert(src);
 				}
 				
-				src->GetOwner()->OnComponentBeginOverlap(src, dest);
-				dest->GetOwner()->OnComponentBeginOverlap(dest, src);
 			}
 			else
 			{
