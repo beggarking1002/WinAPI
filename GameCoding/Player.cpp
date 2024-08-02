@@ -39,33 +39,21 @@ void Player::Tick()
 
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
 
-	// TODO
-	/*
-	if (GET_SINGLE(InputManager)->GetButton(KeyType::W))
+
+
+	switch (_state)
 	{
-		_pos.y -= 200 * deltaTime;
-		SetFlipbook(_flipbookUp);
+	case PlayerState::MoveGround:
+		TickInput();
+		TickMoveGround();
+		break;
+	case PlayerState::JumpFall:
+		TickInput();
+		TickJumpFall();
+		break;
 	}
-	else if (GET_SINGLE(InputManager)->GetButton(KeyType::S))
-	{
-		_pos.y += 200 * deltaTime;
-		SetFlipbook(_flipbookDown);
-	}
-	*/
-	if (GET_SINGLE(InputManager)->GetButton(KeyType::A))
-	{
-		_pos.x -= 200 * deltaTime;
-		SetFlipbook(_flipbookLeft);
-	}
-	else if (GET_SINGLE(InputManager)->GetButton(KeyType::D))
-	{
-		_pos.x += 200 * deltaTime;
-		SetFlipbook(_flipbookRight);
-	}
-	else if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::SpaceBar))
-	{
-		Jump();
-	}
+
+	
 	TickGravity();
 }
 
@@ -83,8 +71,10 @@ void Player::OnComponentBeginOverlap(Collider* collider, Collider* other)
 
 	AdjustCollisionPos(b1, b2);
 
-	_onGround = true;
-	_jumping = false;
+	if (b2->GetCollisionLayerType() == CLT_GROUND)
+	{
+		SetState(PlayerState::MoveGround);
+	}
 }
 
 void Player::OnComponentEndOverlap(Collider* collider, Collider* other)
@@ -96,17 +86,61 @@ void Player::OnComponentEndOverlap(Collider* collider, Collider* other)
 
 	if (b2->GetCollisionLayerType() == CLT_GROUND)
 	{
-		_onGround = false;
+		
 	}
+}
+
+void Player::SetState(PlayerState state)
+{
+	if (_state == state)
+		return;
+
+	switch(state)
+	{
+	case PlayerState::MoveGround:
+		_speed.y = 0;
+		break;
+	case PlayerState::JumpFall:
+		break;
+	}
+	_state = state;
+}
+
+void Player::TickInput()
+{
+	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
+	
+	if (GET_SINGLE(InputManager)->GetButton(KeyType::A))
+	{
+		_pos.x -= 200 * deltaTime;
+		SetFlipbook(_flipbookLeft);
+	}
+	else if (GET_SINGLE(InputManager)->GetButton(KeyType::D))
+	{
+		_pos.x += 200 * deltaTime;
+		SetFlipbook(_flipbookRight);
+	}
+	
+}
+
+void Player::TickMoveGround()
+{
+	if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::SpaceBar))
+	{
+		Jump();
+	}
+}
+
+void Player::TickJumpFall()
+{
 }
 
 void Player::Jump()
 {
-	if (_jumping)
-		return;
+	//if (_state == PlayerState::JumpFall)
+	//	return;
 
-	_jumping = true;
-	_onGround = false;
+	SetState(PlayerState::JumpFall);
 	_speed.y = -500;
 }
 
@@ -116,7 +150,7 @@ void Player::TickGravity()
 	if (deltaTime > 0.1f)
 		return;
 
-	if (_onGround)
+	if (_state == PlayerState::MoveGround)
 		return;
 
 	_speed.y += _gravity * deltaTime;
