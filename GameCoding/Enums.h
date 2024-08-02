@@ -18,9 +18,16 @@ enum LAYER_TYPE
 	LAYER_MAXCOUNT
 };
 
-enum class ColliderType
+enum class ColliderType : uint8
 {
 	Box,
 	Sphere,
+};
 
+enum COLLISION_LAYER_TYPE
+{
+	CLT_OBJECT,
+	CLT_GROUND,
+	CLT_WALL,
+	// ..
 };

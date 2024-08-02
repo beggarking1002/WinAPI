@@ -96,12 +96,20 @@ void DevScene::Init()
 	{
 		Player* player = new Player();
 		player->SetPos({ 100, 100 });
+		{
+			BoxCollider* collider = new BoxCollider();
+			collider->SetSize({ 100, 100 });
+			collider->SetCollisionLayer(CLT_OBJECT);
 
-		BoxCollider* collider = new BoxCollider();
-		collider->SetSize({ 100, 100 });
-		GET_SINGLE(CollisionManager)->AddCollider(collider);
-		player->AddComponent(collider);
 
+			collider->ResetCollisionFlag();
+			collider->AddCollisionFlagLayer(CLT_GROUND);
+			//collider->AddCollisionFlagLayer(CLT_OBJECT);
+
+
+			GET_SINGLE(CollisionManager)->AddCollider(collider);
+			player->AddComponent(collider);
+		}
 		AddActor(player);
 	}
 
@@ -110,16 +118,32 @@ void DevScene::Init()
 		Actor* test = new Actor();
 		test->SetLayer(LAYER_OBJECT);
 		test->SetPos({ 300, 200 });
-		BoxCollider* collider = new BoxCollider();
-		collider->SetSize({ 100, 100 });
-
-		GET_SINGLE(CollisionManager)->AddCollider(collider);
-		test->AddComponent(collider);
-
+		{
+			BoxCollider* collider = new BoxCollider();
+			collider->SetSize({ 100, 100 });
+			collider->SetCollisionLayer(CLT_OBJECT);
+			GET_SINGLE(CollisionManager)->AddCollider(collider);
+			test->AddComponent(collider);
+		}
 		AddActor(test);
 	}
 
-	
+	{
+		Actor* test = new Actor();
+		test->SetLayer(LAYER_OBJECT);
+		test->SetPos({ 200, 400 });
+		{
+			BoxCollider* collider = new BoxCollider();
+			collider->SetSize({ 10000, 100 });
+			collider->SetCollisionLayer(CLT_GROUND);
+			GET_SINGLE(CollisionManager)->AddCollider(collider);
+			test->AddComponent(collider);
+
+		}
+		
+
+		AddActor(test);
+	}
 
 
 

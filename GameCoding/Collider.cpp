@@ -26,6 +26,10 @@ void Collider::Render(HDC hdc)
 
 bool Collider::CheckCollision(Collider* other)
 {
+	uint32 layer = other->GetCollisionLayerType();
+	if (_collisionFlag & (1 << layer))
+		return true;
+
 	return false;
 }
 
@@ -40,6 +44,8 @@ bool Collider::CheckCollisionBox2Box(BoxCollider* b1, BoxCollider* b2)
 
 bool Collider::CheckCollisionSphere2Box(SphereCollider* s1, BoxCollider* b2)
 {
+	
+
 	return false;
 }
 
@@ -56,4 +62,14 @@ bool Collider::CheckCollisionSphere2Sphere(SphereCollider* s1, SphereCollider* s
 
 	return dist <= r1 + r2;
 
+}
+
+void Collider::AddCollisionFlagLayer(COLLISION_LAYER_TYPE layer)
+{
+	_collisionFlag |= (1 << layer);
+}
+
+void Collider::RemoveCollisionFlagLayer(COLLISION_LAYER_TYPE layer)
+{
+	_collisionFlag &= ~(1 << layer);
 }
